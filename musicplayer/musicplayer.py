@@ -3,7 +3,9 @@ import reflex as rx
 from musicplayer.components.footer import *
 from musicplayer.components.sidebar import *
 from musicplayer.components.header import *
-
+from musicplayer.components.maincontent import *
+from musicplayer.components.nowplaying import *
+from musicplayer.components.playlist import *
 
 
 
@@ -18,6 +20,8 @@ def index():
             header(),
             rx.hstack(
                 sidebar(),
+                main_content(),
+                now_playing(),
                 height="100%",
                 overflow="hidden",
             ),

@@ -1,21 +1,50 @@
 import reflex as rx
 
+def icon_sidebar_button(icon:str, text:str):
+    return rx.hover_card.root(
+        rx.hover_card.trigger(
+            rx.icon(
+                icon,
+                width="100%",
+                height="auto"
+            )
+        ),
+        rx.hover_card.content(
+            rx.text(text),
+            side="right",
+        ),
+        
+    )
+    
+
+
 def sidebar():
     return rx.vstack(
-        rx.hstack(rx.icon("home"), rx.text("Home")),
-        rx.hstack(rx.icon("search"), rx.text("Search")),
-        rx.hstack(rx.icon("library"), rx.text("Your Library")),
-        rx.hstack(rx.icon("heart"), rx.text("Liked Songs")),
-        rx.hstack(rx.icon("plus"), rx.text("Create Playlist")),
+        rx.vstack(
+            icon_sidebar_button("home", "Home"),
+            icon_sidebar_button("search", "Search"),
+            icon_sidebar_button("library", "Your Library"),
+            icon_sidebar_button("heart", "Liked Songs"),
+            icon_sidebar_button("plus", "Create Playlist"),
+            background="#121212",
+            padding="20px",
+            width="70px",
+            border_radius="16px",
+        ),
+        
         rx.vstack(
             rx.foreach(
                 rx.Var.range(1, 5),
-                lambda _, index: rx.hstack(rx.image(src="https://i.scdn.co/image/ab67616d00001e02bddf8d199ee35a13eddd1432", width = "5vw", height= "5vw"), rx.text("Playlist"))
+                lambda _, index: rx.hstack(rx.image(src="https://i.scdn.co/image/ab67616d00001e02bddf8d199ee35a13eddd1432", width = "100%", height= "auto", border_radius ="4px"))
                 
             ),
+            background="#121212",
+            padding="13px",
+            border_radius="16px",
             margin_top="16px",
+            width="70px"
         ),
-        width="240px",
+        width="85px",
         padding="16px",
         bg="black",
     )
