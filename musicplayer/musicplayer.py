@@ -2,10 +2,11 @@
 import reflex as rx
 from musicplayer.components.footer import *
 from musicplayer.components.sidebar import *
-from musicplayer.components.homecontent import *
+from musicplayer.components.maincontent.homecontent import home_content
+from musicplayer.components.maincontent.searchcontent import search_content
 from musicplayer.components.nowplaying import *
 from musicplayer.components.playlist import *
-
+from musicplayer.state import State
 
 
 def log():
@@ -18,7 +19,14 @@ def index():
         rx.vstack(
             rx.hstack(
                 sidebar(),
-                home_content(),
+                rx.cond(
+                    State.current_page == "home",
+                    home_content(),
+                ),
+                rx.cond(
+                    State.current_page == "search",
+                    search_content(),
+                ),
                 now_playing(),
                 height="100%",
                 width="100%",
@@ -26,6 +34,7 @@ def index():
             ),
             footer(),
             height="100vh",
+            padding_top="20px"
         ),
         bg="black",
         color="white",
@@ -41,5 +50,12 @@ def index():
 
 
 
-app = rx.App()
+
+app = rx.App(
+    stylesheets=[
+        
+        "/styles.css",
+    ],
+)
+
 app.add_page(index)

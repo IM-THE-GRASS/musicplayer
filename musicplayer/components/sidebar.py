@@ -1,19 +1,23 @@
 import reflex as rx
+from musicplayer.state import State
 
-def icon_sidebar_button(icon:str, text:str):
-    return rx.hover_card.root(
-        rx.hover_card.trigger(
+def icon_sidebar_button(icon:str, text:str, **props):
+    return rx.button(
+        rx.center(
             rx.icon(
                 icon,
-                width="100%",
-                height="auto"
-            )
+                width="30px",
+                height="auto",
+            ),  
+            width="100%",
+            height="100%"
         ),
-        rx.hover_card.content(
-            rx.text(text),
-            side="right",
-        ),
-        
+        width="auto",
+        height="30px",
+        padding="4px",
+        variant="ghost",
+        color_scheme="gray",
+        **props
     )
     
 
@@ -21,13 +25,37 @@ def icon_sidebar_button(icon:str, text:str):
 def sidebar():
     return rx.vstack(
         rx.vstack(
-            icon_sidebar_button("home", "Home"),
-            icon_sidebar_button("search", "Search"),
-            icon_sidebar_button("library", "Your Library"),
-            icon_sidebar_button("heart", "Liked Songs"),
-            icon_sidebar_button("plus", "Create Playlist"),
+            icon_sidebar_button("home", "Home", on_click=State.set_current_page("home")),
+            icon_sidebar_button("search", "Search", on_click=State.set_current_page("search")),
+            icon_sidebar_button("library", "Your Library", on_click=State.set_current_page("library")),
+            icon_sidebar_button("heart", "Liked Songs", on_click=State.set_current_page("liked")),
+            rx.dialog.root(
+                rx.dialog.trigger(
+                    icon_sidebar_button("plus", "Create Playlist"),
+                ),
+                rx.dialog.content(
+                    rx.dialog.root(
+                        rx.dialog.trigger(
+                            rx.button("AA")
+                        ),
+                        rx.dialog.content(
+                            rx.heading("EXAMPLE TEXT"),
+                            rx.heading("HI")
+                        )
+                    ),
+                    rx.heading("HELLO"),
+                    rx.heading("HELLO"),
+                    rx.heading("HELLO"),
+                    rx.heading("HELLO"),
+                    
+                    rx.heading("HELLO"),
+                    rx.dialog.close(
+                        rx.button("Create Playlist"),
+                    ),
+                )
+            ),
             background="#121212",
-            padding="20px",
+            padding="22px",
             width="70px",
             border_radius="16px",
         ),
