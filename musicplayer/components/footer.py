@@ -1,5 +1,5 @@
 import reflex as rx
-
+from musicplayer.state import State
 
 def footer():
     return rx.center(
@@ -20,7 +20,12 @@ def footer():
             rx.hstack(
                 rx.icon("shuffle"),
                 rx.icon("skip-back"),
-                rx.icon("play"),
+                
+                rx.button(
+                    rx.icon("play"),
+                    on_click=State.play
+                ),
+                
                 rx.icon("skip-forward"),
                 rx.icon("repeat"),
                 spacing="4",

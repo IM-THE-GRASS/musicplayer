@@ -9,7 +9,7 @@ from musicplayer.components.playlist import *
 from musicplayer.state import State
 
 
-def log():
+def send_str():
     return rx.call_script("pywebview.api.log(\"HELPME\")")
 
 
@@ -36,6 +36,13 @@ def index():
             height="100vh",
             padding_top="20px"
         ),
+        rx.script(
+            """
+            function receive(to_receive) {
+                alert(to_receive)
+            }
+            """
+        ),
         bg="black",
         color="white",
     )
@@ -44,7 +51,8 @@ def index():
 
 
 
-
+def test_page():
+    return rx.heading("HELLO")
 
 
 
@@ -55,7 +63,9 @@ app = rx.App(
     stylesheets=[
         
         "/styles.css",
+        
     ],
 )
 
 app.add_page(index)
+app.add_page(test_page)

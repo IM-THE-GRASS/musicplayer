@@ -5,7 +5,7 @@ def home_content():
         rx.heading("Good afternoon, Josh", size="2xl", margin_bottom="1em"),
         rx.flex(
             rx.foreach(
-                rx.Var.range(1, 5),
+                rx.Var.range(1, 58),
                 lambda _, index: playlist_card(f"Playlist {index}")   
             ),
             flex_wrap="wrap",

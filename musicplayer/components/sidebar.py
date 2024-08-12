@@ -43,12 +43,12 @@ def sidebar():
                             rx.heading("HI")
                         )
                     ),
-                    rx.heading("HELLO"),
-                    rx.heading("HELLO"),
-                    rx.heading("HELLO"),
-                    rx.heading("HELLO"),
+                    rx.heading("example text"),
+                    rx.heading("example text"),
+                    rx.heading("example text"),
+                    rx.heading("example text"),
                     
-                    rx.heading("HELLO"),
+                    rx.heading("example text"),
                     rx.dialog.close(
                         rx.button("Create Playlist"),
                     ),

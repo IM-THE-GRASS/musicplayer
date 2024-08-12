@@ -4,4 +4,6 @@
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(11.3px);
     -webkit-backdrop-filter: blur(11.3px);
+    border: 1px solid rgba(90, 90, 90, 0.479);
 }
+
