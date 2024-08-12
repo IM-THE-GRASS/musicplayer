@@ -23,6 +23,7 @@ def index():
                 main_content(),
                 now_playing(),
                 height="100%",
+                width="100%",
                 overflow="hidden",
             ),
             footer(),

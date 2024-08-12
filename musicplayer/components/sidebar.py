@@ -31,19 +31,25 @@ def sidebar():
             width="70px",
             border_radius="16px",
         ),
-        
-        rx.vstack(
-            rx.foreach(
-                rx.Var.range(1, 5),
-                lambda _, index: rx.hstack(rx.image(src="https://i.scdn.co/image/ab67616d00001e02bddf8d199ee35a13eddd1432", width = "100%", height= "auto", border_radius ="4px"))
-                
+        rx.scroll_area(
+            rx.vstack(
+                rx.foreach(
+                    rx.Var.range(1, 19),
+                    lambda _, index: rx.hstack(rx.image(src="https://i.scdn.co/image/ab67616d00001e02bddf8d199ee35a13eddd1432", width = "100%", height= "auto", border_radius ="4px"))
+                    
+                ),
+                background="#121212",
+                padding="13px",
+                border_radius="16px",
+                margin_top="16px",
+                width="70px",
+                height="30vh"
             ),
-            background="#121212",
-            padding="13px",
-            border_radius="16px",
-            margin_top="16px",
-            width="70px"
+            width="70px",
+            type="always",
+            scrollbars="vertical"
         ),
+        
         width="85px",
         padding="16px",
         bg="black",
