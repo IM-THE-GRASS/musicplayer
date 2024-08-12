@@ -1,6 +1,6 @@
 import reflex as rx
 from musicplayer.components.playlist import *
-def main_content():
+def home_content():
     return rx.vstack(
         rx.heading("Good afternoon, Josh", size="2xl", margin_bottom="1em"),
         rx.flex(

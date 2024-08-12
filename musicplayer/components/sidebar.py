@@ -43,7 +43,7 @@ def sidebar():
                 border_radius="16px",
                 margin_top="16px",
                 width="70px",
-                height="30vh"
+                height="40vh"
             ),
             width="70px",
             type="always",

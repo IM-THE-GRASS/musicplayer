@@ -31,19 +31,10 @@ def footer():
                 rx.icon("volume-2"),
                 rx.center(
                     rx.box(
-                        rx.hstack(
-                            rx.box(
-                                width="75%",
-                                height="4px",
-                                bg="white",
-                            ),
-                            rx.box(
-                                width="25%",
-                                height="4px",
-                                bg="#4D4D4D",
-                            ),
-                            width="100%",
-                            spacing="0"
+                        rx.slider(
+                            color_scheme="gray",
+                            radius="full",
+                            high_contrast=True
                         ),
                         
                         width="128px",

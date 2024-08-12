@@ -20,6 +20,11 @@ def now_playing():
                         src="https://i.scdn.co/image/ab67616d00001e02bddf8d199ee35a13eddd1432",
                         height="40px",
                         width="auto"
+                    ),
+                    rx.vstack(
+                        rx.text("Echo in t...", font_size="0.8em"),
+                        rx.text("Minecraft...", font_size="0.7em"),
+                        spacing="0"
                     )
                 )
             ),
@@ -34,7 +39,5 @@ def now_playing():
         height="100%",
         padding="2em",
         margin="2em",
-        position="relative",
-        top="-50px"
         
     )
