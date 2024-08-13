@@ -18,18 +18,48 @@ def footer():
             ),
             rx.spacer(),
             rx.hstack(
-                rx.icon("shuffle"),
-                rx.icon("skip-back"),
-                
                 rx.button(
-                    rx.icon("play"),
-                    on_click=State.play
+                    rx.icon("skip-back", size=40),
+                    variant="ghost",
+                    padding="0",
+                    as_child=True
                 ),
                 
-                rx.icon("skip-forward"),
-                rx.icon("repeat"),
-                spacing="4",
-                margin_top="20px",
+                rx.cond(
+                    State.thing,
+                    
+                    rx.button(
+                        rx.icon("pause", size=40),
+                        on_click=[State.pause, rx.call_script("""pywebview.api.get_playing()""",callback=State.handle_thing)],
+                        variant="ghost",
+                        padding="0",
+                        as_child=True
+                    ),
+                    rx.button(
+                        rx.icon("play", size=40),
+                        on_click=[State.play, rx.call_script("""pywebview.api.get_playing()""",callback=State.handle_thing)],
+                        variant="ghost",
+                        padding="0",
+                        as_child=True
+                    ),
+                ),
+                rx.moment(
+                    on_change=[lambda _: State.get_playing("AAA"), rx.call_script("""pywebview.api.get_playing()""",callback=State.handle_thing)],
+                    interval=100,
+                    position="absolute",
+                    left="10000px",
+                    overflow= "hidden"
+                ),
+                rx.button(
+                    rx.icon("skip-forward", size=40),
+                    variant="ghost",
+                    padding="0",
+                    as_child=True
+                ),
+                
+                spacing="6",
+                margin_top="10px",
+                overflow= "hidden"
             ),
             rx.spacer(),
             rx.hstack(

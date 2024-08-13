@@ -45,6 +45,7 @@ def index():
         ),
         bg="black",
         color="white",
+        overflow="hidden"
     )
 
 

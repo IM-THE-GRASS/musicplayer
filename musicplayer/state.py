@@ -8,7 +8,9 @@ class State(rx.State):
         print(self.current_page)
         
     def pause(self):
-        pass
+        return rx.call_script(
+            """pywebview.api.pause()"""
+        )
     def play(self):
         return rx.call_script(
             """pywebview.api.play()"""
@@ -19,16 +21,13 @@ class State(rx.State):
         pass
     def set_volume(self, vol:int):
         pass
-    @rx.var
-    def active(self):
-        pass
-    @rx.var
-    def playing(self):
-        pass
-    @rx.var
-    def paused(self):
-        pass
-    @rx.var
-    def volume(self):
-        pass
+    
+    
+    
+    thing:bool = False
+    def handle_thing(self, thing):
+        print(thing)
+        self.thing = thing
+    def get_playing(self, _):
+        print(_)
     

@@ -11,12 +11,11 @@ def read_settings():
         return json.dumps(loaded_settings, indent=4)
 
 
-
 class Api():
     def play(self):
         playback.play()
         print("PLAY")
-    def pause():
+    def pause(self):
         playback.pause()
     def resume():
         playback.resume()
@@ -25,13 +24,14 @@ class Api():
     def set_volume(vol):
         playback.set_volume(vol)
     
-    def get_playing():
+    def get_playing(_:str):
         return playback.playing
-    def get_active():
+    def get_active(_:str):
         return playback.active
-    def get_paused():
+    def get_paused(_:str):
+        print(playback.paused)
         return playback.paused
-    def get_volume():
+    def get_volume(_:str):
         return playback.volume
         
 def open_file_dialog(window):
