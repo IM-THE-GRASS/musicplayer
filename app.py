@@ -17,11 +17,11 @@ class Api():
         print("PLAY")
     def pause(self):
         playback.pause()
-    def resume():
+    def resume(self):
         playback.resume()
-    def stop():
+    def stop(self):
         playback.stop()
-    def set_volume(vol):
+    def set_volume(self, vol):
         playback.set_volume(vol)
     
     def get_playing(_:str):
@@ -47,14 +47,12 @@ window = webview.create_window(
     url='localhost:3000',
     js_api=Api(),
 )
-def loop(w:webview.Window):
-    def send(to_send):
-        w.evaluate_js(f"receive(\"{to_send}\")")
-    while True: 
-        time.sleep(0.1)
-        # try:
-        #     send("hello")
-        # except:
-        #     print("didnt work")
+# def loop(w:webview.Window):
+#     while True: 
+#         time.sleep(0.1)
         
-webview.start(loop, window, debug=True)
+webview.start(
+    # loop, 
+    # window, 
+    debug=True
+ )

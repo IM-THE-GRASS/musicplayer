@@ -36,13 +36,6 @@ def index():
             height="100vh",
             padding_top="20px"
         ),
-        rx.script(
-            """
-            function receive(to_receive) {
-                alert(to_receive)
-            }
-            """
-        ),
         bg="black",
         color="white",
         overflow="hidden"

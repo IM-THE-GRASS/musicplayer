@@ -26,25 +26,30 @@ def footer():
                 ),
                 
                 rx.cond(
-                    State.thing,
+                    State.playing,
                     
                     rx.button(
                         rx.icon("pause", size=40),
-                        on_click=[State.pause, rx.call_script("""pywebview.api.get_playing()""",callback=State.handle_thing)],
+                        on_click=State.pause,
                         variant="ghost",
                         padding="0",
                         as_child=True
                     ),
                     rx.button(
                         rx.icon("play", size=40),
-                        on_click=[State.play, rx.call_script("""pywebview.api.get_playing()""",callback=State.handle_thing)],
+                        on_click=State.resume1,
                         variant="ghost",
                         padding="0",
                         as_child=True
                     ),
                 ),
                 rx.moment(
-                    on_change=[lambda _: State.get_playing("AAA"), rx.call_script("""pywebview.api.get_playing()""",callback=State.handle_thing)],
+                    on_change=[
+                        rx.call_script("""pywebview.api.get_playing()""",callback=State.get_playing),
+                        rx.call_script("""pywebview.api.get_paused()""",callback=State.get_paused),
+                        rx.call_script("""pywebview.api.get_volume()""",callback=State.get_volume),
+                        rx.call_script("""pywebview.api.get_active()""",callback=State.get_active),
+                    ],
                     interval=100,
                     position="absolute",
                     left="10000px",
@@ -69,7 +74,11 @@ def footer():
                         rx.slider(
                             color_scheme="gray",
                             radius="full",
-                            high_contrast=True
+                            high_contrast=True,
+                            min=0,
+                            max=1,
+                            step=0.05,
+                            on_change=State.set_volume
                         ),
                         
                         width="128px",
