@@ -6,6 +6,8 @@ import subprocess
 import threading
 from yt_dlp import YoutubeDL
 from just_playback import Playback
+import random
+
 playback = Playback()
 def read_settings(): 
     with open("settings.json", "r") as f:
@@ -14,9 +16,19 @@ def read_settings():
 
 
 class Api():
-    playlists:dict
+    def load_playlists(output:dict):
+        for folder in os.listdir("music"):
+            path = os.path.join("music", folder)
+            if os.path.isdir(path):
+                output[folder] = [f for f in os.listdir(path) if f.endswith('.mp3')]
+    playlists:dict = {}
+    current_playlist = None
+    current_song_songnum:int
+    load_playlists(playlists)
+    print(playlists)
     def play(self):
-        playback.play()
+        if self.current_playlist and self.current_song_songnum >= 0:
+            playback.play()
         print("PLAY")
     def pause(self):
         playback.pause()
@@ -36,38 +48,73 @@ class Api():
     def get_volume(_:str):
         return playback.volume
     
-    for folder in os.listdir("music"):
-        path = os.path.join("music", folder)
-        if os.path.isdir(path):
-            print(path, "THISISADIR")
+    
+    
+    def get_playlists(self):
+        return list(self.playlists.keys())
+    def select_playlist(self, playlist_name):
+        if playlist_name in self.playlists:
+            self.current_playlist = playlist_name
+            self.current_song_songnum = -1
+    def play_from_playlist(self, songnum=None):
+        if not self.current_playlist:
+            return
+        if songnum == None:
+            songnum = self.current_song_songnum
+            if songnum == -1:
+                songnum = 0
+        playlist = self.playlists[self.current_playlist]
+        if songnum in range(len(playlist)):
+            self.current_song_songnum = songnum
+            song_path = os.path.join("music", self.current_playlist, playlist[songnum])
+            playback.load_file(song_path)
+            playback.play()
 
-    
-    
-    
+    def next_song(self):
+        if self.current_playlist:
+            next_songnum = (self.current_song_songnum + 1) % len(self.playlists[self.current_playlist]) # this line is ai :grin:
+            self.play_from_playlist(next_songnum)
+    def previous_song(self):
+        if self.current_playlist:
+            prev_songnum = (self.current_song_songnum - 1) % len(self.playlists[self.current_playlist])
+            return self.play_from_playlist(prev_songnum)
+        
+    def shuffle_playlist(self):
+        if self.current_playlist:
+            random.shuffle(self.playlists[self.current_playlist])
+            self.current_song_songnum = -1
+    def get_current_song(self):
+        if self.current_playlist and 0 <= self.current_song_songnum < len(self.playlists[self.current_playlist]):
+            return self.playlists[self.current_playlist][self.current_song_songnum]
+        return None
+
     def download_playlist(self, url:str, playlist_name:str = "default"):
         ffmpeg = os.path.join("music","ffmpeg.exe")
         if "youtube" in url:
             def youtube_download():
                 options={
+                    'format':'bestaudio/best',
+                    'extractaudio':True,
+                    'audioformat':'mp3',
                     "ffmpeg_location":ffmpeg,
-                    "format":"ba, hasaud",
                     "keepvideo":False,
-                    "paths":{"home":os.path.join("music", playlist_name)}
+                    "paths":{"home":os.path.join("music", playlist_name)},
+                    "writeinfojson":True,
+                    "writethumbnail":True,
+                    "clean_infojson":True,
+                    'postprocessors': [
+                        {
+                            'key': 'FFmpegExtractAudio',
+                            'preferredcodec': 'mp3',
+                            'preferredquality': '192',
+                        },
+                        {
+                            'key': 'FFmpegMetadata'
+                        }
+                    ] # YIPPE I TOOK THIS FROM STACKOVERFLOW AND TI SOLVES ALL MYT PROBLEMS !!!!
                 }
                 with YoutubeDL(options) as ydl:
                     ydl.download([url])
-                #convert to mp3 with ffmpeg
-                for file in os.listdir(os.path.join("music", playlist_name)):
-                    output = file.split(".")[0] + ".mp3"
-                    output = os.path.join("music", playlist_name, output)
-                    file = os.path.join("music",playlist_name, file)
-                    if os.path.isfile(file):
-                        subprocess.run(f'{ffmpeg} -i "{file}" "{output}"')
-                #removes the non mp3 files
-                for file in os.listdir(os.path.join("music", playlist_name)):
-                    if not file.endswith(".mp3"):
-                        file = os.path.join("music",playlist_name, file)
-                        os.remove(file)
             thread = threading.Thread(target=youtube_download)
             thread.start()
         elif "spotify" in url:
@@ -75,7 +122,6 @@ class Api():
                 subprocess.run(f'{os.path.join("music","spotdl.exe")} {url} --ffmpeg {ffmpeg} --output {os.path.join("music", playlist_name)}')    
             thread = threading.Thread(target=spot_dl)
             thread.start()
-    
         
 def open_file_dialog(window):
 
@@ -90,14 +136,17 @@ window = webview.create_window(
     url='localhost:3000',
     js_api=Api(),
 )
-def loop(w:webview.Window):
-    while True: 
-        time.sleep(0.1)
-        print("AA")
+
 a = Api()
-a.download_playlist("https://www.youtube.com/playlist?list=PLZw5GZkde4STJs3666UWjbz-AXxOTx3Kt", "MC LOFI")   
+a.select_playlist("MC LOFI")
+a.play_from_playlist()
+print(a.get_current_song())
+a.shuffle_playlist()
+while True:
+    time.sleep(5)
+    a.previous_song()
+    
+    print(a.get_current_song())
 webview.start(
-    # loop, 
-    # window, 
     debug=True
  )
