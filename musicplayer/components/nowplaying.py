@@ -1,11 +1,12 @@
 import reflex as rx
+from musicplayer.state import State
 
 def now_playing():
     return rx.vstack(
         rx.image(
-            src="https://i.scdn.co/image/ab67616d00001e02bddf8d199ee35a13eddd1432",
+            src=State.current_song_img,
             width="100%",
-            height="auto",
+            height="13vw",
             object_fit="cover",
             border_radius="8px",
         ),

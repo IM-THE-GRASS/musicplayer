@@ -1,5 +1,6 @@
 import reflex as rx
 import musicplayer.state
+import os
 class State(rx.State):
     current_page = "home"
     
@@ -70,7 +71,19 @@ class State(rx.State):
     current_playlist:str
     def get_current_playlist(self, playlist):
         self.current_playlist = playlist
-    current_song:str
+    current_song_path:str
+    current_song_img:str
     def get_current_song(self, song):
+        if not self.current_playlist or not song:
+            return
         self.current_song = song
-        print(song)
+        path = os.path.join("app", "music", self.current_playlist)
+        exts:list = [".jpg", ".webp", ".png", ".jpeg"]
+        for ext in exts:
+            music_file = os.path.join(path, song),
+            
+            music_file = music_file[0]
+            
+            music_file = music_file.replace(".mp3", ext)
+            if os.path.isfile(os.path.join(os.getcwd(), "assets", music_file)):
+                self.current_song_img = music_file
