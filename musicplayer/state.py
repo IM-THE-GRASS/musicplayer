@@ -48,9 +48,9 @@ class State(rx.State):
     def resume1(self):
         print("AAA", self.active)
         if self.active:
-            return self.play_from_playlist(1)
+            return self.resume()
         else:
-            return self.play_from_playlist(1)
+            return self.play_from_playlist(None)
     
     playing:bool = True
     def get_playing(self, playing):
@@ -67,3 +67,10 @@ class State(rx.State):
     playlists:list[str]
     def get_playlists(self, playlists):
         self.playlists = playlists
+    current_playlist:str
+    def get_current_playlist(self, playlist):
+        self.current_playlist = playlist
+    current_song:str
+    def get_current_song(self, song):
+        self.current_song = song
+        print(song)

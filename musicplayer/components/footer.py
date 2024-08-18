@@ -6,10 +6,15 @@ def footer():
         rx.hstack(
             
             rx.hstack(
-                rx.image(src="https://i.scdn.co/image/ab67616d00001e02bddf8d199ee35a13eddd1432", width="auto", height="60px"),
+                rx.image(
+                    src="https://cloud-46rupj524-hack-club-bot.vercel.app/0playlist-icon-768x432.png",
+                    width="60px",
+                    height="60px",
+                    object_fit="cover"
+                ),
                 rx.vstack(
-                    rx.text("Echo in the Wind (Monolism Remix)", font_weight="semibold", font_size="20px"),
-                    rx.text("Monolism, Minecraft", font_weight="light", font_size="15px"),
+                    rx.text(State.current_playlist, font_weight="semibold", font_size="20px"),
+                    rx.text("", font_weight="light", font_size="15px"),
                     align_items="start",
                     spacing="1"
                 ),
@@ -51,6 +56,8 @@ def footer():
                         rx.call_script("""pywebview.api.get_volume()""",callback=State.get_volume),
                         rx.call_script("""pywebview.api.get_active()""",callback=State.get_active),
                         rx.call_script("""pywebview.api.get_playlists()""",callback=State.get_playlists),
+                        rx.call_script("""pywebview.api.get_current_song()""",callback=State.get_current_song),
+                        rx.call_script("""pywebview.api.get_current_playlist()""",callback=State.get_current_playlist),
                     ],
                     interval=100,
                     position="absolute",

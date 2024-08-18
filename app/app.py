@@ -8,7 +8,7 @@ from yt_dlp import YoutubeDL
 from just_playback import Playback
 import random
 
-playback = Playback("play.mp3")
+playback = Playback()
 def read_settings(): 
     with open("settings.json", "r") as f:
         loaded_settings = json.load(f)
@@ -56,10 +56,13 @@ class Api():
         if playlist_name in self.playlists:
             self.current_playlist = playlist_name
             self.current_song_songnum = -1
+            playback.stop()
         print(self.current_playlist)
     def play_from_playlist(self, songnum=None):
+        if songnum == "None":
+            songnum = None
         print(songnum)
-        if songnum != None: songnum = int(songnum)
+        if type(songnum) == str: songnum = int(songnum)
         if not self.current_playlist:
             return
         if songnum == None:
@@ -91,6 +94,9 @@ class Api():
         if self.current_playlist and 0 <= self.current_song_songnum < len(self.playlists[self.current_playlist]):
             return self.playlists[self.current_playlist][self.current_song_songnum]
         return None
+    def get_current_playlist(self):
+        if self.current_playlist:
+            return self.current_playlist
 
     def download_playlist(self, url:str, playlist_name:str = "default"):
         ffmpeg = os.path.join("music","ffmpeg.exe")
@@ -140,7 +146,6 @@ window = webview.create_window(
     url='localhost:3000',
     js_api=Api(),
 )
-playback.play()
 webview.start(
     debug=True
  )
