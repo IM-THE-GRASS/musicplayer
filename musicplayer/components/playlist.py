@@ -1,11 +1,12 @@
 import reflex as rx
+from musicplayer.state import State
 
 
-
-def playlist_card(title):
+def playlist_card(name):
     return rx.vstack(
-        rx.image(src="https://i.scdn.co/image/ab67616d00001e02bddf8d199ee35a13eddd1432", alt=title, width="8em", height="8em", object_fit="cover", border_radius="4px",),
-        rx.text(title, font_weight="semibold"),
+        rx.image(src="https://cloud-46rupj524-hack-club-bot.vercel.app/0playlist-icon-768x432.png", alt=name, width="8em", height="8em", object_fit="cover", border_radius="4px",),
+        rx.text(name, font_weight="semibold"),
+        on_click=lambda: State.select_playlist(name),
         padding="8px",
         border_radius="4px",
         bg = "#121212",

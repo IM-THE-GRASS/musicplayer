@@ -8,7 +8,7 @@ from yt_dlp import YoutubeDL
 from just_playback import Playback
 import random
 
-playback = Playback()
+playback = Playback("play.mp3")
 def read_settings(): 
     with open("settings.json", "r") as f:
         loaded_settings = json.load(f)
@@ -31,6 +31,7 @@ class Api():
             playback.play()
         print("PLAY")
     def pause(self):
+        print("pause")
         playback.pause()
     def resume(self):
         playback.resume()
@@ -43,7 +44,6 @@ class Api():
     def get_active(_:str):
         return playback.active
     def get_paused(_:str):
-        print(playback.paused)
         return playback.paused
     def get_volume(_:str):
         return playback.volume
@@ -56,7 +56,10 @@ class Api():
         if playlist_name in self.playlists:
             self.current_playlist = playlist_name
             self.current_song_songnum = -1
+        print(self.current_playlist)
     def play_from_playlist(self, songnum=None):
+        print(songnum)
+        if songnum != None: songnum = int(songnum)
         if not self.current_playlist:
             return
         if songnum == None:
@@ -65,6 +68,7 @@ class Api():
                 songnum = 0
         playlist = self.playlists[self.current_playlist]
         if songnum in range(len(playlist)):
+            print("AA")
             self.current_song_songnum = songnum
             song_path = os.path.join("music", self.current_playlist, playlist[songnum])
             playback.load_file(song_path)
@@ -132,21 +136,11 @@ def open_file_dialog(window):
     return result
 
 window = webview.create_window(
-    "localhost",
+    "sadfdsf",
     url='localhost:3000',
     js_api=Api(),
 )
-
-a = Api()
-a.select_playlist("MC LOFI")
-a.play_from_playlist()
-print(a.get_current_song())
-a.shuffle_playlist()
-while True:
-    time.sleep(5)
-    a.previous_song()
-    
-    print(a.get_current_song())
+playback.play()
 webview.start(
     debug=True
  )

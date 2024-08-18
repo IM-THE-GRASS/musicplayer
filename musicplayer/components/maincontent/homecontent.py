@@ -1,12 +1,13 @@
 import reflex as rx
 from musicplayer.components.playlist import *
+from musicplayer.state import State
 def home_content():
     return rx.vstack(
         rx.heading("Good afternoon, Josh", size="2xl", margin_bottom="1em"),
         rx.flex(
             rx.foreach(
-                rx.Var.range(1, 58),
-                lambda _, index: playlist_card(f"Playlist {index}")   
+                State.playlists,
+                lambda name: playlist_card(name)   
             ),
             flex_wrap="wrap",
             columns="3",

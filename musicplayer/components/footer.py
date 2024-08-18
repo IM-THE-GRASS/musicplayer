@@ -22,7 +22,8 @@ def footer():
                     rx.icon("skip-back", size=40),
                     variant="ghost",
                     padding="0",
-                    as_child=True
+                    as_child=True,
+                    on_click=State.prev_song
                 ),
                 
                 rx.cond(
@@ -49,6 +50,7 @@ def footer():
                         rx.call_script("""pywebview.api.get_paused()""",callback=State.get_paused),
                         rx.call_script("""pywebview.api.get_volume()""",callback=State.get_volume),
                         rx.call_script("""pywebview.api.get_active()""",callback=State.get_active),
+                        rx.call_script("""pywebview.api.get_playlists()""",callback=State.get_playlists),
                     ],
                     interval=100,
                     position="absolute",
@@ -59,7 +61,8 @@ def footer():
                     rx.icon("skip-forward", size=40),
                     variant="ghost",
                     padding="0",
-                    as_child=True
+                    as_child=True,
+                    on_click=State.skip_song
                 ),
                 
                 spacing="6",
