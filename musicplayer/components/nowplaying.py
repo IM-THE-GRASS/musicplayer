@@ -10,8 +10,8 @@ def now_playing():
             object_fit="cover",
             border_radius="8px",
         ),
-        rx.text("Echo in the Wind (Monolism Remix)", font_weight="semibold"),
-        rx.text("Minecraft, Monolism", color="gray.400", font_size="0.8em"),
+        rx.text(State.current_song_name, font_weight="semibold"),
+        rx.text(State.current_song_artist, color="gray.400", font_size="0.8em"),
         rx.box(
             rx.vstack(
                 rx.hstack(

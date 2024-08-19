@@ -26,9 +26,9 @@ def sidebar():
     return rx.vstack(
         rx.vstack(
             icon_sidebar_button("home", "Home", on_click=State.set_current_page("home")),
-            icon_sidebar_button("search", "Search", on_click=State.set_current_page("search")),
-            icon_sidebar_button("library", "Your Library", on_click=State.set_current_page("library")),
-            icon_sidebar_button("heart", "Liked Songs", on_click=State.set_current_page("liked")),
+            # icon_sidebar_button("search", "Search", on_click=State.set_current_page("search")),
+            # icon_sidebar_button("library", "Your Library", on_click=State.set_current_page("library")),
+            # icon_sidebar_button("heart", "Liked Songs", on_click=State.set_current_page("liked")),
             rx.dialog.root(
                 rx.dialog.trigger(
                     icon_sidebar_button("plus", "Create Playlist"),
@@ -62,8 +62,8 @@ def sidebar():
         rx.scroll_area(
             rx.vstack(
                 rx.foreach(
-                    rx.Var.range(1, 19),
-                    lambda _, index: rx.hstack(rx.image(src="https://i.scdn.co/image/ab67616d00001e02bddf8d199ee35a13eddd1432", width = "100%", height= "auto", border_radius ="4px"))
+                    State.playlistsinfo,
+                    lambda info: rx.tooltip(rx.hstack(rx.image(src=info["image"], width = "44px", height= "44px",object_fit="cover", border_radius ="4px")), content=info["name"], side="right")
                     
                 ),
                 background="#121212",

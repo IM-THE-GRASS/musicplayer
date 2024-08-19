@@ -1,6 +1,7 @@
 import reflex as rx
 import musicplayer.state
 import os
+from tinytag import TinyTag
 class State(rx.State):
     current_page = "home"
     
@@ -65,25 +66,61 @@ class State(rx.State):
     volume:int = 1
     def get_volume(self, volume):
         self.volume = volume
+    def get_playlist_img(self, playlist, reflex = False):
+        path = os.path.join(os.getcwd(), "assets", "app", "music",playlist)
+        
+        exts:list = [".jpg", ".webp", ".png", ".jpeg"]
+        for ext in exts:
+            img_file = os.path.join(path, "playlist" + ext)
+            if os.path.isfile(img_file):
+                if reflex:
+                    return os.path.join("app", "music", playlist, "playlist" + ext)
+                return img_file
+        return "https://cloud-46rupj524-hack-club-bot.vercel.app/0playlist-icon-768x432.png"
+        
     playlists:list[str]
+    playlistsinfo:list[dict[str, str]]
     def get_playlists(self, playlists):
+        playlistsinfo:list[dict[str, str]] = []
+        for playlist in playlists:
+            playlistsinfo.append(
+                {
+                    "name":playlist,
+                    "image":self.get_playlist_img(playlist,  True)
+                }
+            )
+        self.playlistsinfo = playlistsinfo
+        print(self.playlistsinfo)
+            
         self.playlists = playlists
     current_playlist:str
     def get_current_playlist(self, playlist):
         self.current_playlist = playlist
     current_song_path:str
     current_song_img:str
+    current_song_artist:str
+    current_song_name:str
+    
+    def get_song_img(self, song):
+        path = os.path.join("app", "music", self.current_playlist)
+        exts:list = [".jpg", ".webp", ".png", ".jpeg"]
+        
+        music_file = os.path.join(path, song),
+        music_file = music_file[0]
+        tag = TinyTag.get(os.path.join(os.getcwd(), "assets", music_file))
+        
+        self.current_song_artist = tag.artist
+        self.current_song_name = tag.title    
+        for ext in exts:
+            
+            img_file = music_file.replace(".mp3", ext)
+            if os.path.isfile(os.path.join(os.getcwd(), "assets", img_file)):
+                return img_file
+    
     def get_current_song(self, song):
         if not self.current_playlist or not song:
             return
         self.current_song = song
-        path = os.path.join("app", "music", self.current_playlist)
-        exts:list = [".jpg", ".webp", ".png", ".jpeg"]
-        for ext in exts:
-            music_file = os.path.join(path, song),
-            
-            music_file = music_file[0]
-            
-            music_file = music_file.replace(".mp3", ext)
-            if os.path.isfile(os.path.join(os.getcwd(), "assets", music_file)):
-                self.current_song_img = music_file
+        self.current_song_img = self.get_song_img(song)
+        print(self.playlists)
+        
