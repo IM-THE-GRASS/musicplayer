@@ -34,24 +34,29 @@ def sidebar():
                     icon_sidebar_button("plus", "Create Playlist"),
                 ),
                 rx.dialog.content(
-                    rx.dialog.root(
-                        rx.dialog.trigger(
-                            rx.button("AA")
+                    rx.vstack(
+                        rx.heading("Youtube playlist downloader"),
+                        rx.input(
+                            placeholder="Enter youtube playlist url here...",
+                            value = State.playlist_url,
+                            on_change= State.on_change_url,
+                            width = "50vw"
                         ),
-                        rx.dialog.content(
-                            rx.heading("EXAMPLE TEXT"),
-                            rx.heading("HI")
+                        rx.input(
+                            placeholder="Enter playlist name...",
+                            width = "50vw",
+                            value=State.playlist_name,
+                            on_change=State.on_change_name
+                        ),
+                        rx.dialog.close(
+                            rx.button(
+                                "Confirm",
+                                on_click=State.submit_playlist
+
+                            )
                         )
-                    ),
-                    rx.heading("example text"),
-                    rx.heading("example text"),
-                    rx.heading("example text"),
-                    rx.heading("example text"),
+                    )
                     
-                    rx.heading("example text"),
-                    rx.dialog.close(
-                        rx.button("Create Playlist"),
-                    ),
                 )
             ),
             background="#121212",

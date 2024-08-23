@@ -99,6 +99,7 @@ class Api():
             return self.current_playlist
 
     def download_playlist(self, url:str, playlist_name:str = "default"):
+        print(url)
         ffmpeg = os.path.join("music","ffmpeg.exe")
         if "youtube" in url:
             def youtube_download():
@@ -109,7 +110,7 @@ class Api():
                     "ffmpeg_location":ffmpeg,
                     "keepvideo":False,
                     "paths":{"home":os.path.join("music", playlist_name)},
-                    "writeinfojson":True,
+                    "writeinfojson":False,
                     "writethumbnail":True,
                     "clean_infojson":True,
                     'postprocessors': [
@@ -132,6 +133,9 @@ class Api():
                 subprocess.run(f'{os.path.join("music","spotdl.exe")} {url} --ffmpeg {ffmpeg} --output {os.path.join("music", playlist_name)}')    
             thread = threading.Thread(target=spot_dl)
             thread.start()
+        else:
+            print(url)
+            print("stoopoo")
         
 def open_file_dialog(window):
 
@@ -142,7 +146,7 @@ def open_file_dialog(window):
     return result
 
 window = webview.create_window(
-    "sadfdsf",
+    "Music Player",
     url='localhost:3000',
     js_api=Api(),
 )

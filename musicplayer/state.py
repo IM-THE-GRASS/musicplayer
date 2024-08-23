@@ -47,6 +47,10 @@ class State(rx.State):
         return rx.call_script(
             f"""pywebview.api.play_from_playlist("{song_num}")"""
         )
+    def download_playlist(self, url, playlist_name):
+        return rx.call_script(
+            f"""pywebview.api.download_playlist("{url}", "{playlist_name}")"""
+        )
     def resume1(self):
         print("AAA", self.active)
         if self.active:
@@ -90,7 +94,6 @@ class State(rx.State):
                 }
             )
         self.playlistsinfo = playlistsinfo
-        print(self.playlistsinfo)
             
         self.playlists = playlists
     current_playlist:str
@@ -124,3 +127,13 @@ class State(rx.State):
         self.current_song_img = self.get_song_img(song)
         print(self.playlists)
         
+    
+    
+    playlist_url:str
+    playlist_name:str
+    def on_change_url(self, new):
+        self.playlist_url = new
+    def on_change_name(self, new):
+        self.playlist_name = new
+    def submit_playlist(self):
+        return self.download_playlist(self.playlist_url, self.playlist_name)
